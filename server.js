@@ -272,9 +272,6 @@ io.on('connection', (socket) => {
     }
   });
 });
-// ─── INICIO DEL SERVIDOR ────────────────────────────────────────────────────
-// Render asignará un puerto automáticamente en process.env.PORT. 
-// Si estás en tu computadora (local), usará el 3000.
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
