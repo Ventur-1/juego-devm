@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech Lotería 🃏</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ PAPEL PICADO BANNER -->
+<div class="papel-picado" aria-hidden="true">
+  <div class="pp-string"></div>
+  <div class="pp-flags">
+    <span class="pp-flag" data-color="red"></span>
+    <span class="pp-flag" data-color="yellow"></span>
+    <span class="pp-flag" data-color="green"></span>
+    <span class="pp-flag" data-color="red"></span>
+    <span class="pp-flag" data-color="yellow"></span>
+    <span class="pp-flag" data-color="green"></span>
+    <span class="pp-flag" data-color="red"></span>
+    <span class="pp-flag" data-color="yellow"></span>
+    <span class="pp-flag" data-color="green"></span>
+    <span class="pp-flag" data-color="red"></span>
+    <span class="pp-flag" data-color="yellow"></span>
+    <span class="pp-flag" data-color="green"></span>
+    <span class="pp-flag" data-color="red"></span>
+    <span class="pp-flag" data-color="yellow"></span>
+    <span class="pp-flag" data-color="green"></span>
+    <span class="pp-flag" data-color="red"></span>
+    <span class="pp-flag" data-color="yellow"></span>
+    <span class="pp-flag" data-color="green"></span>
+    <span class="pp-flag" data-color="red"></span>
+    <span class="pp-flag" data-color="yellow"></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ VIEW: WELCOME -->
+<div id="view-welcome" class="view active">
+  <div class="welcome-container">
+    <div class="welcome-logo">
+      <div class="logo-frame">
+        <div class="logo-corner top-left">✦</div>
+        <div class="logo-corner top-right">✦</div>
+        <div class="logo-corner bottom-left">✦</div>
+        <div class="logo-corner bottom-right">✦</div>
+        <div class="logo-inner">
+          <span class="logo-emoji">🃏</span>
+          <h1 class="logo-title">TECH<br/>LOTERÍA</h1>
+          <p class="logo-subtitle">La Suerte Digital</p>
+        </div>
+      </div>
+    </div>
+    <div class="welcome-buttons">
+      <button id="btn-be-caller" class="btn btn-caller">
+        <span class="btn-icon">🎭</span>
+        <span class="btn-text">SOY EL GRITÓN</span>
+        <span class="btn-sub">El que canta las cartas</span>
+      </button>
+      <button id="btn-be-player" class="btn btn-player">
+        <span class="btn-icon">🎴</span>
+        <span class="btn-text">SOY JUGADOR</span>
+        <span class="btn-sub">A ganar se ha dicho</span>
+      </button>
+    </div>
+    <div id="welcome-error" class="error-toast hidden"></div>
+    <div class="welcome-footer">
+      <span class="circuit-text">── hasta 5 jugadores · cartas tech · puras emociones ──</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ VIEW: PLAYER SETUP -->
+<div id="view-player-setup" class="view hidden">
+  <div class="setup-container">
+    <div class="setup-card">
+      <div class="setup-header">
+        <span class="setup-icon">🎴</span>
+        <h2 class="setup-title">¿Cómo te llamas?</h2>
+        <p class="setup-subtitle">Tu nombre en la tabla de campeones</p>
+      </div>
+      <div class="setup-form">
+        <input
+          type="text"
+          id="input-player-name"
+          class="name-input"
+          placeholder="Tu nombre, crack..."
+          maxlength="20"
+          autocomplete="off"
+        />
+        <button id="btn-join-game" class="btn btn-join">
+          <span>¡ÚNETE A LA PARTIDA!</span>
+        </button>
+        <div id="join-error" class="error-toast hidden"></div>
+      </div>
+      <button id="btn-back-welcome" class="btn-back">← Regresar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ VIEW: WAITING ROOM -->
+<div id="view-waiting" class="view hidden">
+  <div class="waiting-container">
+    <div class="waiting-card">
+      <div class="waiting-header">
+        <div class="waiting-spinner">⚙️</div>
+        <h2 id="waiting-title">Esperando jugadores...</h2>
+        <p id="waiting-subtitle">El Gritón arrancará la partida</p>
+      </div>
+      <div class="waiting-players">
+        <h3 class="section-label">JUGADORES CONECTADOS</h3>
+        <ul id="waiting-player-list" class="player-list"></ul>
+      </div>
+      <div id="waiting-round-info" class="waiting-round hidden">
+        <span class="round-badge">RONDA <span id="waiting-round-num">1</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ VIEW: CALLER -->
+<div id="view-caller" class="view hidden">
+  <div class="caller-layout">
+
+    <!-- LEFT PANEL: Current card + controls -->
+    <div class="caller-main">
+      <div class="caller-header">
+        <h2 class="caller-title">🎭 EL GRITÓN</h2>
+        <div class="round-badge">RONDA <span id="caller-round-num">1</span></div>
+      </div>
+
+      <!-- Big current card display -->
+      <div id="caller-current-card" class="caller-card-display">
+        <div class="caller-card-inner">
+          <div id="caller-current-emoji" class="caller-emoji">🃏</div>
+          <div id="caller-current-name" class="caller-card-name">Jala la primera carta</div>
+          <div id="caller-current-desc" class="caller-card-desc">Dale click al botón para empezar</div>
+        </div>
+        <div class="card-number-badge" id="caller-card-count">0 / 54</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="caller-controls">
+        <button id="btn-draw-card" class="btn btn-draw">
+          <span class="btn-icon">🎴</span>
+          <span>¡JALAR CARTA!</span>
+        </button>
+        <button id="btn-new-round" class="btn btn-new-round hidden">
+          <span class="btn-icon">🔁</span>
+          <span>NUEVA RONDA</span>
+        </button>
+      </div>
+
+      <div id="caller-status" class="caller-status"></div>
+    </div>
+
+    <!-- RIGHT PANEL: Players + History -->
+    <div class="caller-sidebar">
+      <!-- Players list -->
+      <div class="sidebar-section">
+        <h3 class="section-label">⚡ JUGADORES</h3>
+        <ul id="caller-players-list" class="caller-player-list">
+          <li class="no-players">Esperando jugadores...</li>
+        </ul>
+      </div>
+
+      <!-- Called cards history -->
+      <div class="sidebar-section">
+        <h3 class="section-label">📜 CARTAS CANTADAS</h3>
+        <div id="caller-called-cards" class="called-cards-grid"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ VIEW: PLAYER -->
+<div id="view-player" class="view hidden">
+  <div class="player-layout">
+
+    <!-- TOP BAR -->
+    <div class="player-topbar">
+      <div class="player-info">
+        <span class="player-label">JUGADOR</span>
+        <span id="player-name-display" class="player-name">---</span>
+      </div>
+      <div class="current-call-box">
+        <span class="current-call-label">CARTA ACTUAL</span>
+        <div class="current-call-content">
+          <span id="current-call-emoji" class="current-emoji">🃏</span>
+          <span id="current-call-name" class="current-name">–</span>
+        </div>
+      </div>
+      <div class="round-info-top">
+        <span class="round-badge">RONDA <span id="player-round-num">1</span></span>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="player-main">
+
+      <!-- 3x3 LOTERÍA CARD -->
+      <div class="card-frame">
+        <div class="card-frame-header">
+          <span class="card-frame-title">TECH LOTERÍA</span>
+        </div>
+        <div id="player-grid" class="player-grid">
+          <!-- 9 cells generated by JS -->
+        </div>
+        <div class="card-frame-footer">
+          <span class="card-frame-sub">¡La suerte del programador!</span>
+        </div>
+      </div>
+
+      <!-- CALLED CARDS HISTORY (small) -->
+      <div class="history-panel">
+        <h3 class="section-label">CARTAS CANTADAS</h3>
+        <div id="called-cards-history" class="history-grid"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FLOATING LOTERÍA BUTTON (appears when all cells marked) -->
+  <button id="btn-loteria" class="btn-loteria hidden" aria-label="¡Gritar LOTERÍA!">
+    <span class="loteria-text">¡LOTERÍA!</span>
+    <span class="loteria-sub">¡Dale click ya!</span>
+  </button>
+</div>
+
+<!-- ════════════════════════════════════════════════ GAME OVER OVERLAY -->
+<div id="game-over-overlay" class="overlay hidden">
+  <div class="overlay-content">
+    <div class="overlay-header">
+      <div id="overlay-winner-badge" class="winner-badge">
+        <span class="winner-crown">👑</span>
+        <h2 class="winner-title">¡LOTERÍA!</h2>
+        <p id="winner-name" class="winner-name">---</p>
+        <p class="winner-sub">¡GANÓ LA RONDA!</p>
+      </div>
+    </div>
+
+    <div id="player-results-container" class="results-grid"></div>
+
+    <div class="overlay-actions">
+      <button id="btn-overlay-new-round" class="btn btn-new-round hidden">
+        <span class="btn-icon">🔁</span>
+        <span>NUEVA RONDA</span>
+      </button>
+      <p id="overlay-waiting-msg" class="overlay-wait">Esperando que el Gritón inicie nueva ronda...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ CONNECTION STATUS -->
+<div id="connection-status" class="connection-badge connecting">
+  <span class="conn-dot"></span>
+  <span class="conn-text">Conectando...</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ SCRIPTS -->
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/cards.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
