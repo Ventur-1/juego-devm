@@ -273,7 +273,9 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = 3000;
+// Remplaza tu bloque actual por este:
+const PORT = process.env.PORT || 3000;
+
 server.listen(PORT, () => {
-  console.log(`\n🃏 Tech Lotería corriendo en http://localhost:${PORT}\n`);
+  console.log(`\n🃏 Tech Lotería corriendo en el puerto ${PORT}\n`);
 });
