@@ -272,7 +272,11 @@ io.on('connection', (socket) => {
     }
   });
 });
-const socket = io();
+// ─── INICIO DEL SERVIDOR ────────────────────────────────────────────────────
+// Render asignará un puerto automáticamente en process.env.PORT. 
+// Si estás en tu computadora (local), usará el 3000.
+const PORT = process.env.PORT || 3000;
+
 server.listen(PORT, () => {
-  console.log(`\n🃏 Tech Lotería corriendo en el puerto ${PORT}\n`);
+  console.log(`\n🃏 Tech Lotería corriendo exitosamente en el puerto ${PORT}\n`);
 });
